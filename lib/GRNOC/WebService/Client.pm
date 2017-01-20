@@ -488,6 +488,14 @@ sub AUTOLOAD {
         $action = "POST";
     }
 
+    # Removes method_paramter from the parameter string, and sets the
+    # http METHOD to GET POST PUT PATCH or DELETE whenever a
+    # traditional http method is specified.
+    if ($name eq 'GET' || $name eq 'POST' || $name eq 'PUT' || $name eq 'PATCH' || $name eq 'DELETE') {
+        $action = $name;
+        delete $params->{$self->{'method_parameter'}};
+    }
+
     # set each undef value to empty string
     my @keys = keys( %$params );
 
